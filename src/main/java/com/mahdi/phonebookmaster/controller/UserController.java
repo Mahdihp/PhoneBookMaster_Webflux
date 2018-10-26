@@ -20,6 +20,9 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+    public Mono<User> read(@RequestParam Long id){
+        return userRepository.findUserByUserId(id);
+    }
 
     @GetMapping("/users")
     public Flux<User> readAll() {
