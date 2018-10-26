@@ -1,26 +1,38 @@
 package com.mahdi.phonebookmaster.controller;
 
+import com.mahdi.phonebookmaster.constant.Constants;
 import com.mahdi.phonebookmaster.model.User;
 import com.mahdi.phonebookmaster.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
-@RequestMapping(path = "/users", produces = { APPLICATION_JSON_UTF8_VALUE })
+@RequestMapping(path = "/" + Constants.KEY_USER_CONTROLLER)
 public class UserController {
 
-    @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    @GetMapping("/list")
-    Flux<User> getAllUser() {
-        return this.userRepository.findAll();
+    @GetMapping("/users")
+    public Flux<User> readAll() {
+        return userRepository.findAll();
+    }
+
+    @PostMapping("/create")
+    public void create(@RequestBody User user) {
+        userRepository.save(user);
+    }
+
+    @PutMapping("/update")
+    public void update(@RequestBody User user) {
+        userRepository.save(user);
     }
 }

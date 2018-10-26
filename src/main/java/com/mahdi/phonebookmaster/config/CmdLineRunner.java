@@ -46,7 +46,7 @@ public class CmdLineRunner implements CommandLineRunner {
 
     private void contactInit() {
         Flux<Contact> contactFlux = Flux.just(
-          new Contact("mahdi","hp","88477474","09339466943","mahdihp@gmail.com")
+                new Contact("mahdi", "hp", "88477474", "09339466943", "mahdihp@gmail.com")
         );
         this.contactRepository.deleteAll()
                 .thenMany(contactRepository.saveAll(contactFlux)).blockLast();
@@ -54,16 +54,24 @@ public class CmdLineRunner implements CommandLineRunner {
 
     private void roleInit() {
         Flux<Privilege> add_edit_delete_adduser = Flux.just(
-                new Privilege("ADD,EDIT,DELETE,ADDUSER")
+                new Privilege("CREATE"),
+                new Privilege("READ"),
+                new Privilege("UPDATE"),
+                new Privilege("DELETE")
         );
         this.privilegeRepository.deleteAll()
-                .thenReturn(privilegeRepository.saveAll(add_edit_delete_adduser).blockLast());
+                .thenMany(privilegeRepository.saveAll(add_edit_delete_adduser)).blockFirst();
 
 
         List<Privilege> list_admin = Arrays.asList(add_edit_delete_adduser.blockFirst());
 //
-        Flux<Role> adminRole = Flux.just(new Role(list_admin, "Admin"));
-        this.roleRepository.deleteAll().thenReturn(roleRepository.saveAll(adminRole).blockFirst());
+        Flux<Role> adminRole = Flux.just(
+                new Role(list_admin, "Admin"),
+                new Role(list_admin, "User"),
+                new Role(list_admin, "Guest")
+        );
+        this.roleRepository.deleteAll()
+                .thenMany(roleRepository.saveAll(adminRole)).blockFirst();
 
         System.out.println("Role Inserted...");
     }
