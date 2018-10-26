@@ -9,6 +9,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface RoleRepository extends ReactiveMongoRepository<Role, String> {
 
-//    Mono<User> findRoleByName(String username);
+    Mono<User> findRoleByName(String username);
 
 }

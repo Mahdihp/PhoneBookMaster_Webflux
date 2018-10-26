@@ -10,9 +10,10 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface ContactRepository extends ReactiveMongoRepository<Contact, String> {
 
-//    Mono<User> findContactByContactId(String username);
-//    Mono<User> findContactByFirstName(String username);
-//    Mono<User> findContactByLastName(String username);
-//    Mono<User> findContactByMobile(String username);
+    Mono<Contact> findContactByContactId(String username);
+    Mono<Contact> findContactByFirstName(String username);
+    Mono<Contact> findContactByLastName(String username);
+    Mono<Contact> findContactByMobile(String username);
+
 
 }

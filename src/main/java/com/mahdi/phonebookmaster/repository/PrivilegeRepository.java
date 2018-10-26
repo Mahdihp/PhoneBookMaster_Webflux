@@ -10,6 +10,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface PrivilegeRepository extends ReactiveMongoRepository<Privilege, String> {
 
-//    Mono<User> findPrivilegeByName(String username);
+    Mono<User> findPrivilegeByName(String username);
 
 }

@@ -3,6 +3,7 @@ package com.mahdi.phonebookmaster.controller;
 import com.mahdi.phonebookmaster.constant.Constants;
 import com.mahdi.phonebookmaster.model.User;
 import com.mahdi.phonebookmaster.repository.UserRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +21,16 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public Mono<User> read(@RequestParam Long id){
-        return userRepository.findUserByUserId(id);
+
+    @GetMapping("/item/{id}")
+    public Mono<User> read(@PathVariable("id") String id) {
+        return userRepository.findUserByUserId(new ObjectId(id));
     }
+
+//    @GetMapping("/item/{id}")
+//    public Long read(@PathVariable("id") Long id){
+//        return id;
+//    }
 
     @GetMapping("/users")
     public Flux<User> readAll() {
