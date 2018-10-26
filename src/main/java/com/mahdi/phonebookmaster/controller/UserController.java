@@ -27,11 +27,6 @@ public class UserController {
         return userRepository.findUserByUserId(new ObjectId(id));
     }
 
-//    @GetMapping("/item/{id}")
-//    public Long read(@PathVariable("id") Long id){
-//        return id;
-//    }
-
     @GetMapping("/users")
     public Flux<User> readAll() {
         return userRepository.findAll();
@@ -45,5 +40,10 @@ public class UserController {
     @PutMapping("/update")
     public void update(@RequestBody User user) {
         userRepository.save(user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void delete(@PathVariable("id") String id){
+        userRepository.removeByUserId(new ObjectId(id));
     }
 }
