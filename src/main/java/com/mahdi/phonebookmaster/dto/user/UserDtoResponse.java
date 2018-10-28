@@ -1,5 +1,6 @@
 package com.mahdi.phonebookmaster.dto.user;
 
+import com.mahdi.phonebookmaster.dto.BaseDto;
 import com.mahdi.phonebookmaster.model.User;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -45,7 +47,7 @@ public class UserDtoResponse {
 
         List<UserDto> userDtoList = new ArrayList<>();
         for (User u : cache.block()) {
-            userDtoList.add(new UserDto(u, "200", "Users Is Found."));
+            userDtoList.add(new UserDto(u));
         }
 
 //        return userDtoFlux.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.OK));
@@ -53,36 +55,31 @@ public class UserDtoResponse {
 
     }
 
-    public Mono<ResponseEntity<UserDto>> getUserDto() {
+    public Mono<ResponseEntity<UserDtoList>> getUserDto() {
         User block = this.userMono.block();
         UserDto userDto = new UserDto(block);
 //        System.out.println(block);
         if (block != null) {
-            userDto.setMessage("User is Found");
-            userDto.setStatusCode("200");
-            Mono<UserDto> userDtoMono = Mono.just(userDto);
+//            userDto.setMessage("User is Found");
+//            userDto.setStatusCode("200");
+            Mono<UserDtoList> userDtoMono = Mono.just(new UserDtoList(Arrays.asList(userDto),"200","User is Found"));
             return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.OK));
         }
         return null;
-//        else {
-//
-//            UserDto userDtoNotFound = new UserDto();
-//            userDto.setMessage("User Is Not Found");
-//            userDto.setStatusCode("404");
-//            Mono<UserDto> userDtoMono = Mono.just(userDtoNotFound);
-//
-//            return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.NOT_FOUND));
-//        }
     }
 
     public Mono<ResponseEntity<UserDto>> getUserDtoNotFound() {
 
         UserDto userDtoNotFound = new UserDto();
-        userDtoNotFound.setMessage("User Is Not Found");
-        userDtoNotFound.setStatusCode("404");
+//        userDtoNotFound.setMessage("User Is Not Found");
+//        userDtoNotFound.setStatusCode("404");
         Mono<UserDto> userDtoMono = Mono.just(userDtoNotFound);
 
         return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.NOT_FOUND));
+    }
+
+    public Mono<BaseDto> getBaseDto(){
+        return Mono.just(new BaseDto("200","true"));
     }
 
 

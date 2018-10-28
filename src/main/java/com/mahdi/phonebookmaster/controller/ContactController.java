@@ -1,12 +1,10 @@
 package com.mahdi.phonebookmaster.controller;
 
 import com.mahdi.phonebookmaster.constant.Constants;
-import com.mahdi.phonebookmaster.dto.user.UserDto;
-import com.mahdi.phonebookmaster.dto.user.UserDtoList;
-import com.mahdi.phonebookmaster.dto.user.UserDtoResponse;
-import com.mahdi.phonebookmaster.model.User;
-import com.mahdi.phonebookmaster.repository.UserRepository;
-
+import com.mahdi.phonebookmaster.dto.contact.ContactDtoList;
+import com.mahdi.phonebookmaster.dto.contact.ContactDtoResponse;
+import com.mahdi.phonebookmaster.model.Contact;
+import com.mahdi.phonebookmaster.repository.ContactRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,49 +15,47 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.Iterator;
-import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/" + Constants.KEY_USER_CONTROLLER)
-public class UserController {
+@RequestMapping(path = "/" + Constants.KEY_CONTACT_CONTROLLER)
+public class ContactController {
 
     Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
 
-    private UserRepository userRepository;
+    private ContactRepository contactRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ContactController(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
     }
 
 
 
     @GetMapping("/item/{id}")
-    public Mono<ResponseEntity<UserDtoList>> read(@PathVariable("id") String userId) {
+    public Mono<ResponseEntity<ContactDtoList>> read(@PathVariable("id") String userId) {
         logger.info("user id "+ userId);
-        return new UserDtoResponse(userRepository.
-                findById(userId).cache()).getUserDto();
+        return new ContactDtoResponse(contactRepository.
+                findById(userId).cache()).getContactDto();
 
     }
 
-    @GetMapping("/users")
-    public Flux<UserDtoList> readAll() {
-       return new UserDtoResponse(userRepository.findAll().cache()).getUserList();
+    @GetMapping("/contacts")
+    public Flux<ContactDtoList> readAll() {
+       return new ContactDtoResponse(contactRepository.findAll().cache()).getContactList();
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody User user) {
-        userRepository.save(user);
+    public void create(@RequestBody Contact user) {
+        contactRepository.save(user);
     }
 
     @PutMapping("/update/{id}")
-    public Mono<ResponseEntity<User>> update(@PathVariable(value = "id") String userId, @Valid @RequestBody User user) {
-        return userRepository.findById(userId)
+    public Mono<ResponseEntity<Contact>> update(@PathVariable(value = "id") String contactId, @Valid @RequestBody Contact user) {
+        return contactRepository.findById(contactId)
                 .flatMap(existingUser -> {
                     existingUser = user;
-                    return userRepository.save(existingUser);
+                    return contactRepository.save(existingUser);
                 })
                 .map(updateTweet -> new ResponseEntity<>(updateTweet, HttpStatus.OK))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -67,9 +63,9 @@ public class UserController {
 
     @DeleteMapping("/delete/{id}")
     public Mono<ResponseEntity<Void>> delete(@PathVariable("id") String id) {
-        return userRepository.findById(id)
+        return contactRepository.findById(id)
                 .flatMap(existingTweet ->
-                        userRepository.delete(existingTweet)
+                        contactRepository.delete(existingTweet)
                                 .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
                 )
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
