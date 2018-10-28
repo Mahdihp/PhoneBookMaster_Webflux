@@ -38,10 +38,10 @@ public class CmdLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        roleInit();
-        userInit();
-        contactInit();
-
+//        roleInit();
+//        userInit();
+//        contactInit();
+        System.out.println("Finished CmdLineRunner");
     }
 
     private void contactInit() {

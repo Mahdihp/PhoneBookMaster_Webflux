@@ -1,5 +1,6 @@
 package com.mahdi.phonebookmaster.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -17,6 +18,7 @@ public class Privilege {
     @Id
     private ObjectId privilegeId;
     private String name;
+    @JsonIgnore
     private List<Role> roles;
 
     public Privilege() {
