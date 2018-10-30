@@ -30,7 +30,7 @@ public class UserDtoResponse {
         this.userFlux = userFlux;
     }
 
-    public Flux<UserDtoList> getUserList() {
+    public Mono<UserDtoList> getUserList() {
         Mono<List<User>> cache = userFlux.collectList().cache();
         cache.block().forEach(System.out::println);
         List<UserDto> userDtoList =new ArrayList<>();
@@ -38,7 +38,7 @@ public class UserDtoResponse {
             userDtoList.add(new UserDto(udto));
         }
         UserDtoList userDtoList1 = new UserDtoList( userDtoList,"200", "Users Is Found.");
-        return Flux.just(userDtoList1);
+        return Mono.just(userDtoList1);
     }
 
     public Flux<UserDto> getUserListDto() {

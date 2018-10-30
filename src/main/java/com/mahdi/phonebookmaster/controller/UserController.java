@@ -17,10 +17,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.Iterator;
-import java.util.List;
 
 
+//@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping(path = "/" + Constants.KEY_USER_CONTROLLER)
 public class UserController {
@@ -35,18 +34,17 @@ public class UserController {
     }
 
 
-
     @GetMapping("/item/{id}")
     public Mono<ResponseEntity<UserDtoList>> read(@PathVariable("id") String userId) {
-        logger.info("user id "+ userId);
+        logger.info("user id " + userId);
         return new UserDtoResponse(userRepository.
                 findById(userId).cache()).getUserDto();
 
     }
 
     @GetMapping("/users")
-    public Flux<UserDtoList> readAll() {
-       return new UserDtoResponse(userRepository.findAll().cache()).getUserList();
+    public Mono<UserDtoList> readAll() {
+        return new UserDtoResponse(userRepository.findAll().cache()).getUserList();
     }
 
     @PostMapping("/create")
