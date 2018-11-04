@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "http://localhost:8000")
 @RestController
-@RequestMapping(path = "/" + Constants.KEY_USER_CONTROLLER)
+@RequestMapping(path = "/api/" + Constants.KEY_USER_CONTROLLER)
 public class UserController {
 
     Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);

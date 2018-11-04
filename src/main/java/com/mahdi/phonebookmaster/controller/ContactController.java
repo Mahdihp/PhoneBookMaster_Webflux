@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/" + Constants.KEY_CONTACT_CONTROLLER)
+@RequestMapping(path = "/api/" + Constants.KEY_CONTACT_CONTROLLER)
 public class ContactController {
 
     Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
