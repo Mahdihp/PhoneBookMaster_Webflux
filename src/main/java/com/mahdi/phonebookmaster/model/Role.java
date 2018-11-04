@@ -15,9 +15,10 @@ import java.util.Set;
 @Document(collection = "roles")
 public class Role {
 
+    @JsonIgnore
     @Id
     private ObjectId roleId;
-    @JsonIgnore
+    private String longRoleId;
     private List<Privilege> privileges;
     private String name;
 
@@ -26,6 +27,7 @@ public class Role {
 
     public Role(ObjectId roleId, List<Privilege> privileges, String name) {
         this.roleId = roleId;
+        this.longRoleId = roleId.toString();
         this.privileges = privileges;
         this.name = name;
     }
@@ -35,4 +37,11 @@ public class Role {
         this.name = name;
     }
 
+    public String getLongRoleId() {
+        return roleId.toString();
+    }
+
+    public void setLongRoleId(String longRoleId) {
+        this.roleId = new ObjectId(longRoleId);
+    }
 }

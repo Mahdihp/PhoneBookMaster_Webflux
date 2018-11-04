@@ -63,7 +63,7 @@ public class CmdLineRunner implements CommandLineRunner {
                 .thenMany(privilegeRepository.saveAll(add_edit_delete_adduser)).blockFirst();
 
 
-        List<Privilege> list_admin = Arrays.asList(add_edit_delete_adduser.blockFirst());
+        List<Privilege> list_admin = add_edit_delete_adduser.collectList().block();
 //
         Flux<Role> adminRole = Flux.just(
                 new Role(list_admin, "Admin"),
@@ -72,6 +72,19 @@ public class CmdLineRunner implements CommandLineRunner {
         );
         this.roleRepository.deleteAll()
                 .thenMany(roleRepository.saveAll(adminRole)).blockFirst();
+
+        //----------------------------------------------------------
+        Mono<Long> count = userRepository.findAll().count();
+        System.out.println("User Count ..." + count.block());
+        if (count.block() <= 0) {
+            System.out.println(count.block());
+            Flux<User> people = Flux.just(
+                    new User("ali", "110", "Mahdihp",adminRole.blockFirst())
+            );
+            this.userRepository.deleteAll()
+                    .thenMany(userRepository.saveAll(people)).blockLast();
+            System.out.println("Inserted User...");
+        }
 
         System.out.println("Role Inserted...");
     }

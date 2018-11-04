@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 
 
-//@CrossOrigin(origins = "http://localhost:8000")
+@CrossOrigin(origins = "http://localhost:8000")
 @RestController
 @RequestMapping(path = "/" + Constants.KEY_USER_CONTROLLER)
 public class UserController {
@@ -49,11 +49,14 @@ public class UserController {
 
     @PostMapping("/create")
     public void create(@RequestBody User user) {
+        System.out.println("create----------- "+user.toString());
         userRepository.save(user);
     }
 
     @PutMapping("/update/{id}")
-    public Mono<ResponseEntity<User>> update(@PathVariable(value = "id") String userId, @Valid @RequestBody User user) {
+    public Mono<ResponseEntity<User>> update(@PathVariable("id") String userId, @RequestBody User user) {
+//        System.out.println(userId);
+//        System.out.println(user.toString());
         return userRepository.findById(userId)
                 .flatMap(existingUser -> {
                     existingUser = user;
