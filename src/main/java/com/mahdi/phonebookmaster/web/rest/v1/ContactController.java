@@ -1,4 +1,4 @@
-package com.mahdi.phonebookmaster.controller;
+package com.mahdi.phonebookmaster.web.rest.v1;
 
 import com.mahdi.phonebookmaster.constant.Constants;
 import com.mahdi.phonebookmaster.dto.contact.ContactDtoList;

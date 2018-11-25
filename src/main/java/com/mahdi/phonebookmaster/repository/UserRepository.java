@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface UserRepository  extends ReactiveMongoRepository<User, String> {
+public interface UserRepository  extends ReactiveMongoRepository<User, ObjectId> {
 
     Mono<User> findUserByUsernameAndPassword(String username,String password);
     Mono<User> findUserByUsername(String username);

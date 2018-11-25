@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -30,6 +31,13 @@ public class UserDtoResponse {
         this.userFlux = userFlux;
     }
 
+//    public Mono<UserDtoList> getUsers(){
+//        UserDtoList userDtoList=new UserDtoList();
+//        List<User> dataList=new ArrayList<>();
+//
+//        return userFlux.map(p -> dataList.add(p))
+//                .collect(Collectors.toList());
+//    }
     public Mono<UserDtoList> getUserList() {
         Mono<List<User>> cache = userFlux.collectList().cache();
         cache.block().forEach(System.out::println);
