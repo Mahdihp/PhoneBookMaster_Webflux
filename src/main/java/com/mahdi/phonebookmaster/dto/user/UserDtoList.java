@@ -19,8 +19,8 @@ public class UserDtoList extends BaseDto {
         this.dataList = dataList;
     }
 
-    public UserDtoList(List<UserDto> dataList, String statusCode, String message) {
-        super(statusCode, message);
+    public UserDtoList(String status, String errorCode, String message, List<UserDto> dataList) {
+        super(status, errorCode, message);
         this.dataList = dataList;
     }
 }

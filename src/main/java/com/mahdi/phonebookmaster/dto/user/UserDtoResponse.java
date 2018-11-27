@@ -38,16 +38,16 @@ public class UserDtoResponse {
 //        return userFlux.map(p -> dataList.add(p))
 //                .collect(Collectors.toList());
 //    }
-    public Mono<UserDtoList> getUserList() {
-        Mono<List<User>> cache = userFlux.collectList().cache();
-        cache.block().forEach(System.out::println);
-        List<UserDto> userDtoList =new ArrayList<>();
-        for (User udto: cache.block()){
-            userDtoList.add(new UserDto(udto));
-        }
-        UserDtoList userDtoList1 = new UserDtoList( userDtoList,"200", "Users Is Found.");
-        return Mono.just(userDtoList1);
-    }
+//    public Mono<UserDtoList> getUserList() {
+//        Mono<List<User>> cache = userFlux.collectList().cache();
+//        cache.block().forEach(System.out::println);
+//        List<UserDto> userDtoList =new ArrayList<>();
+//        for (User udto: cache.block()){
+//            userDtoList.add(new UserDto(udto));
+//        }
+//        UserDtoList userDtoList1 = new UserDtoList( userDtoList,"200", "Users Is Found.");
+//        return Mono.just(userDtoList1);
+//    }
 
     public Flux<UserDto> getUserListDto() {
         Mono<List<User>> cache = userFlux.collectList().cache();
@@ -63,32 +63,32 @@ public class UserDtoResponse {
 
     }
 
-    public Mono<ResponseEntity<UserDtoList>> getUserDto() {
-        User block = this.userMono.block();
-        UserDto userDto = new UserDto(block);
-//        System.out.println(block);
-        if (block != null) {
-//            userDto.setMessage("User is Found");
-//            userDto.setStatusCode("200");
-            Mono<UserDtoList> userDtoMono = Mono.just(new UserDtoList(Arrays.asList(userDto),"200","User is Found"));
-            return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.OK));
-        }
-        return null;
-    }
+//    public Mono<ResponseEntity<UserDtoList>> getUserDto() {
+//        User block = this.userMono.block();
+//        UserDto userDto = new UserDto(block);
+////        System.out.println(block);
+//        if (block != null) {
+////            userDto.setMessage("User is Found");
+////            userDto.setStatus("200");
+//            Mono<UserDtoList> userDtoMono = Mono.just(new UserDtoList(Arrays.asList(userDto),"200","User is Found"));
+//            return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.OK));
+//        }
+//        return null;
+//    }
 
     public Mono<ResponseEntity<UserDto>> getUserDtoNotFound() {
 
         UserDto userDtoNotFound = new UserDto();
 //        userDtoNotFound.setMessage("User Is Not Found");
-//        userDtoNotFound.setStatusCode("404");
+//        userDtoNotFound.setStatus("404");
         Mono<UserDto> userDtoMono = Mono.just(userDtoNotFound);
 
         return userDtoMono.map(updatedTweet -> new ResponseEntity<>(updatedTweet, HttpStatus.NOT_FOUND));
     }
 
-    public Mono<BaseDto> getBaseDto(){
-        return Mono.just(new BaseDto("200","true"));
-    }
+//    public Mono<BaseDto> getBaseDto(){
+//        return Mono.just(new BaseDto("200","true"));
+//    }
 
 
 }

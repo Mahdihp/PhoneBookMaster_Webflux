@@ -24,7 +24,7 @@ public class UserDto {
         this.username = user.getUsername();
         this.password = user.getPassword();
         this.displayname = user.getDisplayname();
-        this.role = user.getRoles();
+
     }
 
 //    public UserDto(String userId, String username, String password, String displayname, Role role) {

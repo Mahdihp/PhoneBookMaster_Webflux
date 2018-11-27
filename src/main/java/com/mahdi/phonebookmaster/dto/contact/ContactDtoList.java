@@ -17,8 +17,8 @@ public class ContactDtoList extends BaseDto {
         this.dataList = dataList;
     }
 
-    public ContactDtoList( List<ContactDto> dataList,String statusCode, String message) {
-        super(statusCode, message);
+    public ContactDtoList(String status, String errorCode, String message, List<ContactDto> dataList) {
+        super(status, errorCode, message);
         this.dataList = dataList;
     }
 }

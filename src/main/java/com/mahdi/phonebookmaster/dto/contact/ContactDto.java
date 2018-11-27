@@ -1,6 +1,5 @@
 package com.mahdi.phonebookmaster.dto.contact;
 
-import com.mahdi.phonebookmaster.dto.BaseDto;
 import com.mahdi.phonebookmaster.model.Contact;
 import lombok.Data;
 

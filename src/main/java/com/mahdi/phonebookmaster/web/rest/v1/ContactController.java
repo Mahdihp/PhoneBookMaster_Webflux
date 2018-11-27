@@ -18,7 +18,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping(path = "/api/" + Constants.KEY_CONTACT_CONTROLLER)
+@RequestMapping(path = "/api/v1/"+ Constants.KEY_CONTACT_CONTROLLER)
 public class ContactController {
 
     Logger logger = LogManager.getLogger(LogManager.ROOT_LOGGER_NAME);
@@ -33,25 +33,25 @@ public class ContactController {
 
 
     @GetMapping("/item/{id}")
-    public Mono<ResponseEntity<ContactDtoList>> read(@PathVariable("id") String userId) {
+    public Mono<ContactDtoList> getContact(@PathVariable("id") String userId) {
         logger.info("user id "+ userId);
         return new ContactDtoResponse(contactRepository.
-                findById(userId).cache()).getContactDto();
+                findById(userId).single()).getSingleContact();
 
     }
 
-    @GetMapping("/contacts")
-    public Flux<ContactDtoList> readAll() {
-       return new ContactDtoResponse(contactRepository.findAll().cache()).getContactList();
-    }
+//    @GetMapping("/contacts")
+//    public Flux<ContactDtoList> readAll() {
+//       return new ContactDtoResponse(contactRepository.findAll().cache()).getContactList();
+//    }
 
     @PostMapping("/create")
-    public void create(@RequestBody Contact user) {
+    public void addContact(@RequestBody Contact user) {
         contactRepository.save(user);
     }
 
     @PutMapping("/update/{id}")
-    public Mono<ResponseEntity<Contact>> update(@PathVariable(value = "id") String contactId, @Valid @RequestBody Contact user) {
+    public Mono<ResponseEntity<Contact>> updateContact(@PathVariable(value = "id") String contactId, @Valid @RequestBody Contact user) {
         return contactRepository.findById(contactId)
                 .flatMap(existingUser -> {
                     existingUser = user;
@@ -62,7 +62,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public Mono<ResponseEntity<Void>> delete(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Void>> deleteContact(@PathVariable("id") String id) {
         return contactRepository.findById(id)
                 .flatMap(existingTweet ->
                         contactRepository.delete(existingTweet)

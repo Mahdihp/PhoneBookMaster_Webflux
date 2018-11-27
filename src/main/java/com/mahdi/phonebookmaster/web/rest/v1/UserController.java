@@ -32,11 +32,11 @@ public class UserController {
 //
 //    }
 
-    @GetMapping("/users")
-    public Mono<UserDtoList> readAll() {
-        System.out.println("readAll--------------");
-        return new UserDtoResponse(userRepository.findAll().cache()).getUserList();
-    }
+//    @GetMapping("/users")
+//    public Mono<UserDtoList> readAll() {
+//        System.out.println("readAll--------------");
+//        return new UserDtoResponse(userRepository.findAll().cache()).getUserList();
+//    }
 
     @PostMapping("/create")
     public void create(@RequestBody User user) {
